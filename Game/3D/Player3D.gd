@@ -1,0 +1,91 @@
+extends CharacterBody3D
+
+const SPEED = 3.0
+const JUMP_VELOCITY = 4.5
+
+@onready var Animate: AnimationPlayer = $Animate
+
+#@export_enum('FPS', 'TPS', 'Head', 'Bird') var camera_type = 'Bird'
+@export var camera_type = 0
+
+@onready var Cameras: Node3D = $Cameras
+@onready var InBetweenCamera: Camera3D = $InBetweenPath/PathFollow3D/InBetweenCamera
+@onready var InBetweenPath: Path3D = $InBetweenPath
+
+
+var CurrentCamera: Camera3D = null
+var cameraAnimatePosition = 0.0 #from 0 to 1, aids in rotation and other value tweening
+var camera_between_final_rotation = Vector3.ZERO
+var camera_between_start_rotation = Vector3.ZERO
+
+func _ready() -> void:
+	CurrentCamera = Cameras.get_child(camera_type)
+
+func _physics_process(delta: float) -> void:
+	# Add the gravity.
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+	
+	# Handle jump.
+	#if Input.is_action_just_pressed("3DJump") and is_on_floor():
+		#velocity.y = JUMP_VELOCITY
+	
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var input_dir := Input.get_vector("3DLeft", "3DRight", "3DForward", "3DBackward")
+	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	if direction:
+		velocity.x = direction.x * SPEED
+		velocity.z = direction.z * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.z = move_toward(velocity.z, 0, SPEED)
+	
+	move_and_slide()
+
+func _process(_delta: float) -> void:
+	
+	CurrentCamera.rotation.x = clamp(CurrentCamera.rotation.x, -PI/2, PI/2)
+	
+	if Input.is_action_just_pressed("Click"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	elif Input.is_action_just_pressed("Escape"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+	if Input.is_action_just_pressed("CameraSwitch"):
+		
+		InBetweenCamera.current = true
+		InBetweenCamera.rotation = CurrentCamera.rotation
+		InBetweenPath.curve.clear_points()
+		InBetweenPath.curve.add_point(CurrentCamera.global_position)
+		
+		camera_between_start_rotation = CurrentCamera.rotation
+		
+		camera_type += 1
+		if camera_type > Cameras.get_child_count() - 1:
+			camera_type = 0
+		CurrentCamera = Cameras.get_child(camera_type)
+		
+		InBetweenPath.curve.add_point(CurrentCamera.global_position)
+		
+		camera_between_final_rotation = CurrentCamera.rotation
+		
+		Animate.play("InBetweenCamera")
+		print(camera_between_final_rotation)
+	
+	# animating camera still
+	# lerps the camera from start rotation to end rotation, based on it's ratio of being finished in the timeline
+	if Animate.current_animation == "InBetweenCamera" and Animate.is_playing():
+		CurrentCamera.rotation = lerp(camera_between_start_rotation, camera_between_final_rotation, Animate.current_animation_position / Animate.current_animation_length)
+
+func _input(event) -> void:
+	
+	# this depends on the camera type...
+	if event is InputEventMouseMotion and InBetweenCamera.current == false:
+		rotation.y += -event.relative.x * .001
+		CurrentCamera.rotation.x += -event.relative.y * .001
+		
+
+func finishCameraSwitch() -> void:
+	CurrentCamera.current = true
+	CurrentCamera.rotation = InBetweenCamera.rotation

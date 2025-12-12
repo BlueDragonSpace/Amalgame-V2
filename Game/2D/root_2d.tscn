@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://bkbyuf03gf71n"]
+
+[ext_resource type="Script" uid="uid://da3sll8ipnt8j" path="res://Game/2D/Player2D.gd" id="1_ignk3"]
+[ext_resource type="Texture2D" uid="uid://cgncxj1vgvu34" path="res://placeholderArt/Green to BlueBlock-1.png.png" id="2_ignk3"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ignk3"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r3ye7"]
+radius = 8.0
+height = 32.0
+
+[node name="Root2D" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_ignk3")
+
+[node name="GreenToBlueBlock1_png" type="Sprite2D" parent="."]
+position = Vector2(6.1035156e-05, -87.99994)
+scale = Vector2(23.436947, 18.396948)
+texture = ExtResource("2_ignk3")
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(184, -112)
+script = ExtResource("1_ignk3")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(2, 2)
+limit_left = 0
+limit_bottom = 0
+limit_smoothed = true
+position_smoothing_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CapsuleShape2D_r3ye7")

@@ -1,0 +1,23 @@
+
+Need:
+	GitHub (obviously)
+	White World (scenes)
+
+Probably:
+	Pixel Perfect Camera (Celeste guy tutorial)
+
+Maybe:
+	Drunken Camera Offset
+
+Want:
+	
+
+Note that these are all listed in order of importance (like a tier list! cuz it is a tier list)
+
+If you ever do use the mirror, it should probably be a reflective surface rather than a static camera lol
+
+SCENES:
+	Third-Person! (just move the camera outwards lol)
+
+REFACTORING:
+	Player3D Camera type enum automatically finds Camera names

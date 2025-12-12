@@ -1,0 +1,8 @@
+(12/10/2025)
+So many ways to make a large system like this go wrong...
+I can keep making projects though!
+
+Amalgame. Cascade was originally named Amalgame, so this is V2
+
+Figured out bookmarks!
+Displaying 2D images on a 3D scene (viewports)

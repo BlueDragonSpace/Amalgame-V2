@@ -1,0 +1,158 @@
+[gd_scene load_steps=7 format=3 uid="uid://cyuqrre1erwff"]
+
+[ext_resource type="Theme" uid="uid://dtrskx5jnaqxn" path="res://AMaster/rootTheme.tres" id="1_8qjpp"]
+[ext_resource type="Script" uid="uid://c0up1458yalss" path="res://AMaster/root.gd" id="1_stlhs"]
+[ext_resource type="PackedScene" uid="uid://co0abf2qdb4vg" path="res://Game/3D/root_3d.tscn" id="2_8qjpp"]
+
+[sub_resource type="Animation" id="Animation_pyidc"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RootUI/Frontground:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RootUI/Frontground:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_pq8q7"]
+resource_name = "pureStart"
+length = 5.0
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RootUI/Frontground:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.5, 0.16666667, 0, 0),
+"times": PackedFloat32Array(0, 0.75, 5)
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RootUI/Frontground:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vvh5c"]
+_data = {
+&"RESET": SubResource("Animation_pyidc"),
+&"pureStart": SubResource("Animation_pq8q7")
+}
+
+[node name="Root" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_8qjpp")
+script = ExtResource("1_stlhs")
+
+[node name="RootUI" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="RootUI"]
+layout_mode = 0
+offset_right = 206.0
+offset_bottom = 31.0
+text = "This is button in 3D scene"
+
+[node name="Frontground" type="ColorRect" parent="RootUI"]
+modulate = Color(0.14117648, 0.14117648, 0.14117648, 1)
+top_level = true
+z_index = 999
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Animate" type="AnimationPlayer" parent="RootUI"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_vvh5c")
+}
+autoplay = "pureStart"
+
+[node name="Battle" type="Control" parent="RootUI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RootUI/Battle"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -72.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ATK" type="Button" parent="RootUI/Battle/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../ITM")
+focus_neighbor_right = NodePath("../DFD")
+focus_next = NodePath("../DFD")
+focus_previous = NodePath("../ITM")
+text = "ATK"
+
+[node name="DFD" type="Button" parent="RootUI/Battle/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "This is a tooltip
+wawa"
+focus_neighbor_left = NodePath("../ATK")
+focus_neighbor_right = NodePath("../ITM")
+focus_next = NodePath("../ITM")
+focus_previous = NodePath("../ATK")
+text = "DFD"
+
+[node name="ITM" type="Button" parent="RootUI/Battle/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../DFD")
+focus_neighbor_right = NodePath("../ATK")
+focus_next = NodePath("../ATK")
+focus_previous = NodePath("../DFD")
+text = "ITM"
+
+[node name="RootGame" type="Node" parent="."]
+
+[node name="Root3D" parent="RootGame" instance=ExtResource("2_8qjpp")]

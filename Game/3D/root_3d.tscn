@@ -1,0 +1,209 @@
+[gd_scene load_steps=18 format=3 uid="uid://co0abf2qdb4vg"]
+
+[ext_resource type="Texture2D" uid="uid://cgncxj1vgvu34" path="res://placeholderArt/Green to BlueBlock-1.png.png" id="1_kdruv"]
+[ext_resource type="Script" uid="uid://rm65qpnbr06s" path="res://Game/3D/Player3D.gd" id="1_rx5h8"]
+[ext_resource type="PackedScene" uid="uid://bkbyuf03gf71n" path="res://Game/2D/root_2d.tscn" id="2_d66d5"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d66d5"]
+radius = 0.2
+height = 0.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rx5h8"]
+radius = 0.2
+height = 0.8
+
+[sub_resource type="Curve3D" id="Curve3D_rx5h8"]
+
+[sub_resource type="Animation" id="Animation_5y2ow"]
+resource_name = "InBetweenCamera"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow3D/InBetweenCamera:current")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"finishCameraSwitch"
+}]
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PathFollow3D:progress_ratio")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.16666667, -0.16666667, 0, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_4yfpd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow3D/InBetweenCamera:current")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PathFollow3D:progress_ratio")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4sf8v"]
+_data = {
+&"InBetweenCamera": SubResource("Animation_5y2ow"),
+&"RESET": SubResource("Animation_4yfpd")
+}
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pq8q7"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_pyidc"]
+sky_material = SubResource("ProceduralSkyMaterial_pq8q7")
+
+[sub_resource type="Environment" id="Environment_vvh5c"]
+background_mode = 2
+sky = SubResource("Sky_pyidc")
+tonemap_mode = 2
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_rx5h8"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_rx5h8"]
+size = Vector2(200, 200)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_5y2ow"]
+viewport_path = NodePath("Progres/SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_4yfpd"]
+viewport_path = NodePath("TVScreen/SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_rx5h8"]
+viewport_path = NodePath("Mirror/SubViewport")
+
+[node name="Root3D" type="Node3D"]
+
+[node name="Player3D" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.41398573, 0)
+script = ExtResource("1_rx5h8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player3D"]
+shape = SubResource("CapsuleShape3D_d66d5")
+debug_color = Color(0, 0.6, 0.69803923, 0.7529412)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player3D"]
+mesh = SubResource("CapsuleMesh_rx5h8")
+
+[node name="Cameras" type="Node3D" parent="Player3D"]
+
+[node name="FPS" type="Camera3D" parent="Player3D/Cameras"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.19999999, 0)
+current = true
+
+[node name="TPS" type="Camera3D" parent="Player3D/Cameras"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.39290798, 0.5492017, 0.7459618)
+current = true
+
+[node name="Head" type="Camera3D" parent="Player3D/Cameras"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6, 0.19999999, 0)
+
+[node name="Bird" type="Camera3D" parent="Player3D/Cameras"]
+transform = Transform3D(1, 0, 0, 0, 1.1924881e-08, 1, 0, -1, 1.1924881e-08, 0, 3, 0)
+
+[node name="InBetweenPath" type="Path3D" parent="Player3D"]
+curve = SubResource("Curve3D_rx5h8")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Player3D/InBetweenPath"]
+transform = Transform3D(0.99999917, 0, 0, 0, 0.9999995, 0, 0, 0, 0.9999997, 0, 0, 0)
+
+[node name="InBetweenCamera" type="Camera3D" parent="Player3D/InBetweenPath/PathFollow3D"]
+
+[node name="Animate" type="AnimationPlayer" parent="Player3D"]
+root_node = NodePath("../InBetweenPath")
+libraries = {
+&"": SubResource("AnimationLibrary_4sf8v")
+}
+
+[node name="BasicArt" type="Sprite3D" parent="."]
+transform = Transform3D(0.3524483, -0.42770496, 0.8323753, 0.16676715, 0.9039184, 0.39385307, -0.92085224, 0, 0.38991165, -0.70113677, 0.6133053, -0.33233407)
+texture = ExtResource("1_kdruv")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_vvh5c")
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape3D_rx5h8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("PlaneMesh_rx5h8")
+
+[node name="Progres" type="Sprite3D" parent="."]
+transform = Transform3D(0.7049437, 0, -0.7092632, 0, 1, 0, 0.7092632, 0, 0.7049437, 0.53455806, 0.56609046, -0.51036155)
+texture = SubResource("ViewportTexture_5y2ow")
+
+[node name="SubViewport" type="SubViewport" parent="Progres"]
+canvas_item_default_texture_filter = 0
+size = Vector2i(54, 20)
+
+[node name="ProgressBar" type="ProgressBar" parent="Progres/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 32.0
+
+[node name="TVScreen" type="Sprite3D" parent="."]
+transform = Transform3D(0.20000002, 0, 0, 0, 0.20000003, 0, 0, 0, 0.20000002, -0.08716321, 0.77000856, -0.9228879)
+texture = SubResource("ViewportTexture_4yfpd")
+
+[node name="SubViewport" type="SubViewport" parent="TVScreen"]
+canvas_item_default_texture_filter = 0
+size = Vector2i(1000, 512)
+
+[node name="Root2D" parent="TVScreen/SubViewport" instance=ExtResource("2_d66d5")]
+
+[node name="Mirror" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.59843564, 2.9672065)
+texture = SubResource("ViewportTexture_rx5h8")
+
+[node name="SubViewport" type="SubViewport" parent="Mirror"]
+
+[node name="Camera3D" type="Camera3D" parent="Mirror/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.59843564, 2.9672065)
+
+[node name="MoveCamera" type="RemoteTransform3D" parent="Mirror"]
+remote_path = NodePath("../SubViewport/Camera3D")
