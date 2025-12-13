@@ -1,16 +1,17 @@
 
 Need:
-	GitHub (obviously)
-	White World (scenes)
+	Movement is screwed up on camera switch
+	Changing hitboxes to be planes on Camera switch
 
 Probably:
-	Pixel Perfect Camera (Celeste guy tutorial)
+	Orthogonal art intent (2D presumably)
+	White World (scenes)
 
 Maybe:
 	Drunken Camera Offset
 
 Want:
-	
+	Pixel Perfect Camera (Celeste guy tutorial)
 
 Note that these are all listed in order of importance (like a tier list! cuz it is a tier list)
 

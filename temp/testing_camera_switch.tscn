@@ -1,0 +1,160 @@
+[gd_scene load_steps=8 format=3 uid="uid://c7bryd7l0ypsj"]
+
+[ext_resource type="Script" uid="uid://bopi87s68461c" path="res://temp/testing_camera_switch.gd" id="1_7hvcx"]
+[ext_resource type="Texture2D" uid="uid://cyc660h0sts47" path="res://placeholderArt/OIP-removebg-preview.png" id="1_j17mn"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_7hvcx"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="Curve3D" id="Curve3D_sdopb"]
+
+[sub_resource type="Animation" id="Animation_6mpgd"]
+resource_name = "transition"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cameras/Path3D/PathFollow3D/InBetween:current")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.56666666, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cameras/End:current")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cameras/Path3D/PathFollow3D:progress_ratio")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.16666667, -0.16666667, 0, 0),
+"times": PackedFloat32Array(0.53333336, 1.4666667)
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:transitionNum")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.53333336, 1.4666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_diror"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cameras/Path3D/PathFollow3D/InBetween:current")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cameras/End:current")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cameras/Path3D/PathFollow3D:progress_ratio")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:transitionNum")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jy0cj"]
+_data = {
+&"RESET": SubResource("Animation_diror"),
+&"transition": SubResource("Animation_6mpgd")
+}
+
+[node name="TestingCameraSwitch" type="Node3D"]
+script = ExtResource("1_7hvcx")
+transitionNum = 1.0
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.072784)
+texture = ExtResource("1_j17mn")
+
+[node name="Cameras" type="Node3D" parent="."]
+
+[node name="Start" type="Camera3D" parent="Cameras"]
+transform = Transform3D(0.9500483, 0, -0.3121028, -0.052269187, 0.98587644, -0.15910865, 0.3076948, 0.16747427, 0.93663025, -0.61255556, 0.24306631, 0.20133895)
+current = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cameras/Start"]
+mesh = SubResource("BoxMesh_7hvcx")
+
+[node name="End" type="Camera3D" parent="Cameras"]
+transform = Transform3D(0.8690349, -0.16867904, 0.46510834, -0.0032224033, 0.9381362, 0.3462512, -0.4947403, -0.30240315, 0.8147296, 1.3878281, 0.6248609, -0.4520353)
+current = true
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Cameras/End"]
+mesh = SubResource("BoxMesh_7hvcx")
+skeleton = NodePath("../../Start")
+
+[node name="Path3D" type="Path3D" parent="Cameras"]
+curve = SubResource("Curve3D_sdopb")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Cameras/Path3D"]
+transform = Transform3D(1, 0, 0, 0, 0.9999997, 0, 0, 0, 0.9999998, 0, 0, 0)
+tilt_enabled = false
+
+[node name="InBetween" type="Camera3D" parent="Cameras/Path3D/PathFollow3D"]
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Cameras/Path3D/PathFollow3D/InBetween"]
+mesh = SubResource("BoxMesh_7hvcx")
+skeleton = NodePath("../../../../Start")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_jy0cj")
+}
+autoplay = "transition"

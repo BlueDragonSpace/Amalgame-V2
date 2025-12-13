@@ -6,3 +6,15 @@ Amalgame. Cascade was originally named Amalgame, so this is V2
 
 Figured out bookmarks!
 Displaying 2D images on a 3D scene (viewports)
+
+(12/11)
+Set up Github, a really bad fake mirror, tab and arrow UI stuff, and so many cameras
+Trying to link up the cameras with an inbetween camera, but something's still missing...
+
+(12/12)
+Had an insight: I don't think the 3D camera is going to work... Even when the projection is orthogonal,
+it's gonna have unintended 3D blocked shadows and other stuff...
+I think I might have to make something like Fez's game engine, the way 2D is interacting with 3D is similar
+
+Figured out why the transition camera isn't working: It's curving to the PathFollow3D, have to set manually
+Fixed the CAMERAAAAAAAAAAAAAAA

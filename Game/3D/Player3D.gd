@@ -11,12 +11,11 @@ const JUMP_VELOCITY = 4.5
 @onready var Cameras: Node3D = $Cameras
 @onready var InBetweenCamera: Camera3D = $InBetweenPath/PathFollow3D/InBetweenCamera
 @onready var InBetweenPath: Path3D = $InBetweenPath
-
+@onready var InBetweenPathFollow: PathFollow3D = $InBetweenPath/PathFollow3D
+var camera_between_start_rotation = Vector3.ZERO
 
 var CurrentCamera: Camera3D = null
-var cameraAnimatePosition = 0.0 #from 0 to 1, aids in rotation and other value tweening
-var camera_between_final_rotation = Vector3.ZERO
-var camera_between_start_rotation = Vector3.ZERO
+@export var cameraAnimatePosition = 0.0 #from 0 to 1, aids in rotation and other value tweening
 
 func _ready() -> void:
 	CurrentCamera = Cameras.get_child(camera_type)
@@ -57,31 +56,33 @@ func _process(_delta: float) -> void:
 		InBetweenCamera.current = true
 		InBetweenCamera.rotation = CurrentCamera.rotation
 		InBetweenPath.curve.clear_points()
-		InBetweenPath.curve.add_point(CurrentCamera.global_position)
+		InBetweenPath.curve.add_point(CurrentCamera.position)
 		
-		camera_between_start_rotation = CurrentCamera.rotation
+		camera_between_start_rotation = CurrentCamera.rotation 
 		
 		camera_type += 1
 		if camera_type > Cameras.get_child_count() - 1:
 			camera_type = 0
-		CurrentCamera = Cameras.get_child(camera_type)
+		CurrentCamera = Cameras.get_child(camera_type) #switches from before camera to after camera
 		
-		InBetweenPath.curve.add_point(CurrentCamera.global_position)
-		
-		camera_between_final_rotation = CurrentCamera.rotation
+		InBetweenPath.curve.add_point(CurrentCamera.position)
 		
 		Animate.play("InBetweenCamera")
-		print(camera_between_final_rotation)
 	
 	# animating camera still
 	# lerps the camera from start rotation to end rotation, based on it's ratio of being finished in the timeline
-	if Animate.current_animation == "InBetweenCamera" and Animate.is_playing():
-		CurrentCamera.rotation = lerp(camera_between_start_rotation, camera_between_final_rotation, Animate.current_animation_position / Animate.current_animation_length)
-
+	if Animate.current_animation == "InBetweenCamera":
+		InBetweenCamera.rotation = camera_between_start_rotation.lerp(CurrentCamera.rotation, cameraAnimatePosition)
+		
+	# makes sure that the path follow doesn't curve in the direction of the path the inbetween takes
+	InBetweenPathFollow.set_deferred("rotation", Vector3.ZERO)
+	
+	
 func _input(event) -> void:
 	
 	# this depends on the camera type...
-	if event is InputEventMouseMotion and InBetweenCamera.current == false:
+	#if event is InputEventMouseMotion and InBetweenCamera.current == false:
+	if event is InputEventMouseMotion:
 		rotation.y += -event.relative.x * .001
 		CurrentCamera.rotation.x += -event.relative.y * .001
 		
