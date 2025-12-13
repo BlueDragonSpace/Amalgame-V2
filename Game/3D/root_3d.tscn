@@ -1,8 +1,23 @@
-[gd_scene load_steps=18 format=3 uid="uid://co0abf2qdb4vg"]
+[gd_scene load_steps=27 format=3 uid="uid://co0abf2qdb4vg"]
 
-[ext_resource type="Texture2D" uid="uid://cgncxj1vgvu34" path="res://placeholderArt/Green to BlueBlock-1.png.png" id="1_kdruv"]
 [ext_resource type="Script" uid="uid://rm65qpnbr06s" path="res://Game/3D/Player3D.gd" id="1_rx5h8"]
+[ext_resource type="PackedScene" uid="uid://c032yw7550pgw" path="res://Game/3D/Environment/delete_me.tscn" id="2_4yfpd"]
 [ext_resource type="PackedScene" uid="uid://bkbyuf03gf71n" path="res://Game/2D/root_2d.tscn" id="2_d66d5"]
+[ext_resource type="FontFile" uid="uid://mhdspuc46081" path="res://placeholderArt/PixelOperator8.ttf" id="3_rx5h8"]
+[ext_resource type="PackedScene" uid="uid://becpqi8nmxnv0" path="res://Game/3D/Environment/ridgeway/ridgeway.tscn" id="4_5y2ow"]
+[ext_resource type="PackedScene" uid="uid://dhfok330ujv6j" path="res://Game/3D/Environment/one_way_platform.tscn" id="6_4sf8v"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_d66d5"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_rx5h8"]
+sky_material = SubResource("ProceduralSkyMaterial_d66d5")
+
+[sub_resource type="Environment" id="Environment_5y2ow"]
+background_mode = 2
+sky = SubResource("Sky_rx5h8")
+tonemap_mode = 2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d66d5"]
 radius = 0.2
@@ -11,6 +26,9 @@ height = 0.8
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_rx5h8"]
 radius = 0.2
 height = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_rx5h8"]
+size = Vector3(0.3, 0.1, 0.2)
 
 [sub_resource type="Curve3D" id="Curve3D_rx5h8"]
 
@@ -110,18 +128,6 @@ _data = {
 &"RESET": SubResource("Animation_4yfpd")
 }
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pq8q7"]
-sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-
-[sub_resource type="Sky" id="Sky_pyidc"]
-sky_material = SubResource("ProceduralSkyMaterial_pq8q7")
-
-[sub_resource type="Environment" id="Environment_vvh5c"]
-background_mode = 2
-sky = SubResource("Sky_pyidc")
-tonemap_mode = 2
-
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_rx5h8"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_rx5h8"]
@@ -136,10 +142,40 @@ viewport_path = NodePath("TVScreen/SubViewport")
 [sub_resource type="ViewportTexture" id="ViewportTexture_rx5h8"]
 viewport_path = NodePath("Mirror/SubViewport")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rx5h8"]
+albedo_color = Color(0.32941177, 0.27450982, 0.65882355, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_5y2ow"]
+material = SubResource("StandardMaterial3D_rx5h8")
+
+[sub_resource type="TextMesh" id="TextMesh_5y2ow"]
+text = "Wait what there's 3D text
+Holey Magicarp"
+font = ExtResource("3_rx5h8")
+font_size = 32
+
+[sub_resource type="Curve" id="Curve_4yfpd"]
+_data = [Vector2(0.017804153, 0), 0.0, 4.6235466, 0, 0, Vector2(0.63798225, 0.47999996), 0.0, 0.0, 0, 0, Vector2(0.9020772, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_4sf8v"]
+size = 3.235
+curve = SubResource("Curve_4yfpd")
+
 [node name="Root3D" type="Node3D"]
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_5y2ow")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+light_energy = 0.3
+shadow_enabled = true
+
 [node name="Player3D" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.41398573, 0)
+transform = Transform3D(-0.34103578, 0, -0.9400503, 0, 1, 0, 0.9400503, 0, -0.34103578, 0, 0.41398573, 0)
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_rx5h8")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player3D"]
@@ -149,20 +185,32 @@ debug_color = Color(0, 0.6, 0.69803923, 0.7529412)
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player3D"]
 mesh = SubResource("CapsuleMesh_rx5h8")
 
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Player3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.239856, -0.09753275)
+mesh = SubResource("BoxMesh_rx5h8")
+
 [node name="Cameras" type="Node3D" parent="Player3D"]
-
-[node name="Bird" type="Camera3D" parent="Player3D/Cameras"]
-transform = Transform3D(1, 0, 0, 0, 1.1924881e-08, 1, 0, -1, 1.1924881e-08, 0, 3, 0)
-
-[node name="Head" type="Camera3D" parent="Player3D/Cameras"]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6, 0.19999999, 0)
-
-[node name="FPS" type="Camera3D" parent="Player3D/Cameras"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.19999999, 0)
-current = true
 
 [node name="TPS" type="Camera3D" parent="Player3D/Cameras"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.39290798, 0.5492017, 0.7459618)
+projection = 1
+current = true
+size = 5.0
+
+[node name="Bird" type="Camera3D" parent="Player3D/Cameras"]
+transform = Transform3D(1, 0, 0, 0, 1.1924881e-08, 1, 0, -1, 1.1924881e-08, 0, 3, 0)
+projection = 1
+size = 5.0
+
+[node name="Head" type="Camera3D" parent="Player3D/Cameras"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 6)
+projection = 1
+size = 5.0
+
+[node name="FPS" type="Camera3D" parent="Player3D/Cameras"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.19999999, 0)
+projection = 1
+size = 5.0
 
 [node name="InBetweenPath" type="Path3D" parent="Player3D"]
 curve = SubResource("Curve3D_rx5h8")
@@ -171,19 +219,14 @@ curve = SubResource("Curve3D_rx5h8")
 transform = Transform3D(0.99999917, 0, 0, 0, 0.9999995, 0, 0, 0, 0.9999997, 0, 0, 0)
 
 [node name="InBetweenCamera" type="Camera3D" parent="Player3D/InBetweenPath/PathFollow3D"]
+projection = 1
+size = 5.0
 
 [node name="Animate" type="AnimationPlayer" parent="Player3D"]
 root_node = NodePath("../InBetweenPath")
 libraries = {
 &"": SubResource("AnimationLibrary_4sf8v")
 }
-
-[node name="BasicArt" type="Sprite3D" parent="."]
-transform = Transform3D(0.3524483, -0.42770496, 0.8323753, 0.16676715, 0.9039184, 0.39385307, -0.92085224, 0, 0.38991165, -0.70113677, 0.6133053, -0.33233407)
-texture = ExtResource("1_kdruv")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_vvh5c")
 
 [node name="Floor" type="StaticBody3D" parent="."]
 
@@ -193,8 +236,14 @@ shape = SubResource("WorldBoundaryShape3D_rx5h8")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
 mesh = SubResource("PlaneMesh_rx5h8")
 
+[node name="DeleteMe" parent="Floor" instance=ExtResource("2_4yfpd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.07951, 0.5, 5.6455455)
+collision_mask = 1
+sz = Vector3(1, 6, 6)
+
 [node name="Progres" type="Sprite3D" parent="."]
 transform = Transform3D(0.7049437, 0, -0.7092632, 0, 1, 0, 0.7092632, 0, 0.7049437, 0.53455806, 0.56609046, -0.51036155)
+texture_filter = 0
 texture = SubResource("ViewportTexture_5y2ow")
 
 [node name="SubViewport" type="SubViewport" parent="Progres"]
@@ -230,3 +279,39 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.59843564, 2.9672065)
 
 [node name="MoveCamera" type="RemoteTransform3D" parent="Mirror"]
 remote_path = NodePath("../SubViewport/Camera3D")
+
+[node name="Donut3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0350008, 0.46394467)
+mesh = SubResource("TorusMesh_5y2ow")
+skeleton = NodePath("")
+
+[node name="3DText" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2078786, 2.0350008, -3.2726154)
+mesh = SubResource("TextMesh_5y2ow")
+skeleton = NodePath("")
+
+[node name="pago" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.58430123, 1.1486795, -2.5295823)
+mesh = SubResource("RibbonTrailMesh_4sf8v")
+skeleton = NodePath("")
+
+[node name="Ridgeway" parent="." instance=ExtResource("4_5y2ow")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.458, 0, 0)
+width = 8
+length = 8
+
+[node name="OneWayPlatform" parent="." instance=ExtResource("6_4sf8v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.859944, 0.8059186, 1.3512065)
+collision_mask = 1
+
+[node name="OneWayPlatform2" parent="." instance=ExtResource("6_4sf8v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.021531, 0.24889264, 2.9329448)
+collision_mask = 1
+
+[node name="OneWayPlatform3" parent="." instance=ExtResource("6_4sf8v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.644324, 1.3402845, 1.1260527)
+collision_mask = 1
+
+[node name="OneWayPlatform4" parent="." instance=ExtResource("6_4sf8v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.523899, 0.49980697, 2.4872653)
+collision_mask = 1

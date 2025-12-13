@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://c032yw7550pgw"]
+
+[ext_resource type="PackedScene" uid="uid://ds7amdlrlk45e" path="res://Game/3D/Environment/basic_block.tscn" id="1_xsol4"]
+[ext_resource type="Script" uid="uid://qryo6dguk8hr" path="res://Game/3D/Environment/delete_me.gd" id="2_xcmc7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kmchl"]
+resource_local_to_scene = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xsol4"]
+albedo_color = Color(0.34117648, 0.5686275, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_22iko"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_xsol4")
+
+[node name="DeleteMe" instance=ExtResource("1_xsol4")]
+collision_mask = 3
+script = ExtResource("2_xcmc7")
+
+[node name="CollisionShape3D" parent="." index="0"]
+shape = SubResource("BoxShape3D_kmchl")
+
+[node name="MeshInstance3D" parent="." index="1"]
+mesh = SubResource("BoxMesh_22iko")
+
+[node name="punchMe" type="Node" parent="." index="2"]
