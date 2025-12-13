@@ -7,18 +7,28 @@ const JUMP_VELOCITY = 4.5
 
 #@export_enum('FPS', 'TPS', 'Head', 'Bird') var camera_type = 'Bird'
 @export var camera_type = 0
+@export var camera_mouse_rotate = true
 
 @onready var Cameras: Node3D = $Cameras
 @onready var InBetweenCamera: Camera3D = $InBetweenPath/PathFollow3D/InBetweenCamera
 @onready var InBetweenPath: Path3D = $InBetweenPath
 @onready var InBetweenPathFollow: PathFollow3D = $InBetweenPath/PathFollow3D
-var camera_between_start_rotation = Vector3.ZERO
+var camera_between_start_rotation = Vector3.ZERO 
+var camera_to_player_direction = {
+	BACK = 1,
+	FRONT = 2
+}
+
 
 var CurrentCamera: Camera3D = null
+@export_category("ANIMATION ONLY EXPORTS")
 @export var cameraAnimatePosition = 0.0 #from 0 to 1, aids in rotation and other value tweening
 
 func _ready() -> void:
 	CurrentCamera = Cameras.get_child(camera_type)
+	
+	camera_to_player_direction = 1
+	print(camera_to_player_direction)
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -30,7 +40,6 @@ func _physics_process(delta: float) -> void:
 		velocity.y = JUMP_VELOCITY
 	
 	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector("3DLeft", "3DRight", "3DForward", "3DBackward")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
@@ -82,7 +91,7 @@ func _input(event) -> void:
 	
 	# this depends on the camera type...
 	#if event is InputEventMouseMotion and InBetweenCamera.current == false:
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion and camera_mouse_rotate:
 		rotation.y += -event.relative.x * .001
 		CurrentCamera.rotation.x += -event.relative.y * .001
 		
