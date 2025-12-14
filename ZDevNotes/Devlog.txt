@@ -22,3 +22,4 @@ Fixed the CAMERAAAAAAAAAAAAAAA
 (12/13)
 Made One-way Platforms, likely a must for what comes next
 Made Fez Blocks!
+Also figured out enums (forgot to put it in the Devlog)

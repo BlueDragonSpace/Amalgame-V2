@@ -1,3 +1,7 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# my custom files I'm adding
+temp
+ZDevNotes
