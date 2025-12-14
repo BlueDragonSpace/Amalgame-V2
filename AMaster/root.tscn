@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cyuqrre1erwff"]
+[gd_scene load_steps=8 format=3 uid="uid://cyuqrre1erwff"]
 
 [ext_resource type="Theme" uid="uid://dtrskx5jnaqxn" path="res://AMaster/rootTheme.tres" id="1_8qjpp"]
 [ext_resource type="Script" uid="uid://c0up1458yalss" path="res://AMaster/root.gd" id="1_stlhs"]
@@ -63,6 +63,9 @@ _data = {
 &"pureStart": SubResource("Animation_pq8q7")
 }
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_8qjpp"]
+viewport_path = NodePath("RootGame/Root3D/SubViewport")
+
 [node name="Root" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -85,7 +88,7 @@ grow_vertical = 2
 layout_mode = 0
 offset_right = 206.0
 offset_bottom = 31.0
-text = "This is button in 3D scene"
+text = "This is a button in 3D scene"
 
 [node name="Frontground" type="ColorRect" parent="RootUI"]
 modulate = Color(0.14117648, 0.14117648, 0.14117648, 1)
@@ -153,6 +156,22 @@ focus_next = NodePath("../ATK")
 focus_previous = NodePath("../DFD")
 text = "ITM"
 
+[node name="TextureRect" type="TextureRect" parent="RootUI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -300.0
+offset_bottom = 300.0
+grow_horizontal = 0
+texture = SubResource("ViewportTexture_8qjpp")
+
 [node name="RootGame" type="Node" parent="."]
 
 [node name="Root3D" parent="RootGame" instance=ExtResource("2_8qjpp")]
+
+[node name="SubViewport" type="SubViewport" parent="RootGame/Root3D"]
+size = Vector2i(300, 300)
+
+[node name="Camera3D" type="Camera3D" parent="RootGame/Root3D/SubViewport"]
+transform = Transform3D(0.6231427, 0, 0.78210807, 0, 1, 0, -0.7821081, 0, 0.6231427, -4.7887235, 1.5865651, -3.4373186)

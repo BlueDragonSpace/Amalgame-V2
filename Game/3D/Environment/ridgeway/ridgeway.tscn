@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://becpqi8nmxnv0"]
 
-[ext_resource type="Script" uid="uid://c03p57xhv3kn0" path="res://Game/3D/Environment/ridgeway.gd" id="1_irwrb"]
+[ext_resource type="Script" uid="uid://c03p57xhv3kn0" path="res://Game/3D/Environment/ridgeway/ridgeway.gd" id="1_irwrb"]
 
 [node name="Ridgeway" type="Node3D"]
 script = ExtResource("1_irwrb")

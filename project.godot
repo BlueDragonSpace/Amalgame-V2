@@ -30,11 +30,15 @@ window/size/viewport_height=600
 
 [editor]
 
-movie_writer/movie_file="D:/Godot/projects/amalgame-v-2/temp/cameraDemo.avi"
+movie_writer/movie_file="D:/Godot/projects/amalgame-v-2/temp/fezBlocks.avi"
 
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
+
+[global_group]
+
+Player="global player access"
 
 [input]
 

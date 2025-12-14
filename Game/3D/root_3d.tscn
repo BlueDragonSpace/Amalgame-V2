@@ -1,11 +1,12 @@
-[gd_scene load_steps=27 format=3 uid="uid://co0abf2qdb4vg"]
+[gd_scene load_steps=28 format=3 uid="uid://co0abf2qdb4vg"]
 
 [ext_resource type="Script" uid="uid://rm65qpnbr06s" path="res://Game/3D/Player3D.gd" id="1_rx5h8"]
-[ext_resource type="PackedScene" uid="uid://c032yw7550pgw" path="res://Game/3D/Environment/delete_me.tscn" id="2_4yfpd"]
+[ext_resource type="PackedScene" uid="uid://c032yw7550pgw" path="res://Game/3D/Environment/Blocks/delete_me.tscn" id="2_4yfpd"]
 [ext_resource type="PackedScene" uid="uid://bkbyuf03gf71n" path="res://Game/2D/root_2d.tscn" id="2_d66d5"]
 [ext_resource type="FontFile" uid="uid://mhdspuc46081" path="res://placeholderArt/PixelOperator8.ttf" id="3_rx5h8"]
 [ext_resource type="PackedScene" uid="uid://becpqi8nmxnv0" path="res://Game/3D/Environment/ridgeway/ridgeway.tscn" id="4_5y2ow"]
-[ext_resource type="PackedScene" uid="uid://dhfok330ujv6j" path="res://Game/3D/Environment/one_way_platform.tscn" id="6_4sf8v"]
+[ext_resource type="PackedScene" uid="uid://dhfok330ujv6j" path="res://Game/3D/Environment/Blocks/one_way_platform.tscn" id="6_4sf8v"]
+[ext_resource type="PackedScene" uid="uid://bukc4enrv352c" path="res://Game/3D/Environment/Blocks/fez_block.tscn" id="7_d58b6"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_d66d5"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -172,7 +173,7 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 light_energy = 0.3
 shadow_enabled = true
 
-[node name="Player3D" type="CharacterBody3D" parent="."]
+[node name="Player3D" type="CharacterBody3D" parent="." groups=["Player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.41398573, 0)
 collision_layer = 2
 collision_mask = 3
@@ -208,6 +209,10 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6, 0
 projection = 1
 size = 5.0
 
+[node name="TPS" type="Camera3D" parent="Player3D/Cameras"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.39290798, 0.135216, 0.7459618)
+size = 5.0
+
 [node name="InBetweenPath" type="Path3D" parent="Player3D"]
 curve = SubResource("Curve3D_rx5h8")
 
@@ -224,15 +229,10 @@ libraries = {
 &"": SubResource("AnimationLibrary_4sf8v")
 }
 
-[node name="UnusedCameras" type="Node3D" parent="Player3D"]
+[node name="UnusedCameras" type="Node" parent="Player3D"]
 
 [node name="FPS" type="Camera3D" parent="Player3D/UnusedCameras"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.19999999, 0)
-projection = 1
-size = 5.0
-
-[node name="TPS" type="Camera3D" parent="Player3D/UnusedCameras"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.39290798, 0.5492017, 0.7459618)
 projection = 1
 size = 5.0
 
@@ -309,17 +309,19 @@ width = 8
 length = 8
 
 [node name="OneWayPlatform" parent="." instance=ExtResource("6_4sf8v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.859944, 0.8059186, 1.3512065)
-collision_mask = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.009188, 0.4451612, 3.216341)
 
 [node name="OneWayPlatform2" parent="." instance=ExtResource("6_4sf8v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.021531, 0.24889264, 2.9329448)
-collision_mask = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.602994, 0.9444958, 1.6081363)
 
 [node name="OneWayPlatform3" parent="." instance=ExtResource("6_4sf8v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.644324, 1.3402845, 1.1260527)
-collision_mask = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.897207, 1.3659309, 1.6136985)
 
 [node name="OneWayPlatform4" parent="." instance=ExtResource("6_4sf8v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.523899, 0.49980697, 2.4872653)
-collision_mask = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.61211, 0.1, 3.0039704)
+
+[node name="FezBlock" parent="." instance=ExtResource("7_d58b6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.3219614, -5)
+
+[node name="FezBlock2" parent="." instance=ExtResource("7_d58b6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.92337, 0.7734786, -6.1382313)

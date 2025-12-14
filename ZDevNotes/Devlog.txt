@@ -21,17 +21,4 @@ Fixed the CAMERAAAAAAAAAAAAAAA
 
 (12/13)
 Made One-way Platforms, likely a must for what comes next
-
-Current Devlog:
-	Made the camera smoothly transition from one viewpoint to another! 
-	
-	This took me wayyy longer than I thought, had to figure out how to use lerp() and animations and that the PathFollow2D I was using was rotating the camera the wrong way and blehhhh
-	I'm really happy with how this turned out in the end tho
-	
-	I realized that the game I'm making could be comparable to FEZ, but instead of a puzzler and from a head-on view in four directions, mine is trying to manipulate other viewpoints, like bird's eye and first person...
-	
-	And I made a weird mirror using a camera instead of a reflective material lol
-	
-	(unfortunately I don't think the hours tracked, because I was offline)
-	Orthogonal testing... Makes sense for this game...
-	In Fez, there were four directions to go. Now you should be able to view from above as well...
+Made Fez Blocks!

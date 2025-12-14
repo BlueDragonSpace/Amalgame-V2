@@ -5,7 +5,7 @@ const JUMP_VELOCITY = 4.5
 
 @onready var Animate: AnimationPlayer = $Animate
 
-#@export_enum('FPS', 'TPS', 'Head', 'Bird') var camera_type = 'Bird'
+## CAMERA stuff
 @export var camera_type = 0
 @export var camera_mouse_rotate = true
 
@@ -14,21 +14,22 @@ const JUMP_VELOCITY = 4.5
 @onready var InBetweenPath: Path3D = $InBetweenPath
 @onready var InBetweenPathFollow: PathFollow3D = $InBetweenPath/PathFollow3D
 var camera_between_start_rotation = Vector3.ZERO 
-var camera_to_player_direction = {
-	BACK = 1,
-	FRONT = 2
+enum CAMERA_DIRECTIONS {
+	FORWARD,
+	RIGHT,
 }
+var camera_to_player_direction = CAMERA_DIRECTIONS.FORWARD
 
+signal camera_view_changed
 
 var CurrentCamera: Camera3D = null
 @export_category("ANIMATION ONLY EXPORTS")
 @export var cameraAnimatePosition = 0.0 #from 0 to 1, aids in rotation and other value tweening
 
+
 func _ready() -> void:
 	CurrentCamera = Cameras.get_child(camera_type)
 	
-	camera_to_player_direction = 1
-	print(camera_to_player_direction)
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -39,10 +40,16 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("3DJump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 	
+	var input_dir = null
 	# Get the input direction and handle the movement/deceleration.
-	var input_dir := Input.get_vector("3DLeft", "3DRight", "3DForward", "3DBackward")
+	match(camera_to_player_direction):
+		CAMERA_DIRECTIONS.FORWARD:
+			input_dir = Input.get_vector("3DLeft", "3DRight", "3DForward", "3DBackward")
+		CAMERA_DIRECTIONS.RIGHT:
+			input_dir = Input.get_vector("3DForward", "3DBackward", "3DRight", "3DLeft")
+	#var input_dir := Input.get_vector("3DLeft", "3DRight", "3DForward", "3DBackward")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if direction:
+	if direction and CurrentCamera.current:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 	else:
@@ -94,8 +101,22 @@ func _input(event) -> void:
 	if event is InputEventMouseMotion and camera_mouse_rotate:
 		rotation.y += -event.relative.x * .001
 		CurrentCamera.rotation.x += -event.relative.y * .001
-		
 
 func finishCameraSwitch() -> void:
 	CurrentCamera.current = true
 	CurrentCamera.rotation = InBetweenCamera.rotation
+	
+	if CurrentCamera.name == "Head90":
+		camera_to_player_direction = CAMERA_DIRECTIONS.RIGHT
+	else:
+		camera_to_player_direction = CAMERA_DIRECTIONS.FORWARD
+	
+	var non_existant_direction_in_relation_to_the_camera = null
+	match(CurrentCamera.name):
+		"Bird":
+			non_existant_direction_in_relation_to_the_camera = "y"
+		"Head":
+			non_existant_direction_in_relation_to_the_camera = "z"
+		"Head90":
+			non_existant_direction_in_relation_to_the_camera = "x"
+	camera_view_changed.emit(non_existant_direction_in_relation_to_the_camera)

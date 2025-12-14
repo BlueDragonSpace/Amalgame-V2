@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://dhfok330ujv6j"]
+
+[ext_resource type="PackedScene" uid="uid://ds7amdlrlk45e" path="res://Game/3D/Environment/Blocks/basic_block.tscn" id="1_3lw55"]
+[ext_resource type="Script" uid="uid://cwnr7b5ykbpvs" path="res://Game/3D/Environment/Blocks/one_way_platform.gd" id="2_p8f31"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4mi3g"]
+resource_local_to_scene = true
+size = Vector3(1, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3lw55"]
+albedo_color = Color(7.70092e-07, 0.6519701, 0.67741483, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_065g7"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_3lw55")
+size = Vector3(1, 0.2, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3lw55"]
+size = Vector3(1, 0.1, 1)
+
+[node name="OneWayPlatform" instance=ExtResource("1_3lw55")]
+script = ExtResource("2_p8f31")
+sz = Vector3(1, 0.2, 1)
+
+[node name="CollisionShape3D" parent="." index="0"]
+shape = SubResource("BoxShape3D_4mi3g")
+
+[node name="MeshInstance3D" parent="." index="1"]
+mesh = SubResource("BoxMesh_065g7")
+
+[node name="Area3D" type="Area3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.09241694, 0)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0"]
+shape = SubResource("BoxShape3D_3lw55")
+debug_color = Color(0, 0.6, 0.69803923, 0.9372549)
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]
