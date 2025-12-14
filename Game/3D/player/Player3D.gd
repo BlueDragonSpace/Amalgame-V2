@@ -20,7 +20,7 @@ enum CAMERA_DIRECTIONS {
 }
 var camera_to_player_direction = CAMERA_DIRECTIONS.FORWARD
 
-signal camera_view_changed
+signal camera_view_changing
 
 var CurrentCamera: Camera3D = null
 @export_category("ANIMATION ONLY EXPORTS")
@@ -30,6 +30,8 @@ var CurrentCamera: Camera3D = null
 func _ready() -> void:
 	CurrentCamera = Cameras.get_child(camera_type)
 	
+	# clears the path3D (I would just leave it empty, but it causes an annoying error when I save)
+	InBetweenPath.curve.clear_points()
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -83,6 +85,16 @@ func _process(_delta: float) -> void:
 		
 		InBetweenPath.curve.add_point(CurrentCamera.position)
 		
+		var non_existant_direction_in_relation_to_the_camera = null
+		match(CurrentCamera.name):
+			"Bird":
+				non_existant_direction_in_relation_to_the_camera = "y"
+			"Head":
+				non_existant_direction_in_relation_to_the_camera = "z"
+			"Head90":
+				non_existant_direction_in_relation_to_the_camera = "x"
+		camera_view_changing.emit(non_existant_direction_in_relation_to_the_camera)
+		
 		Animate.play("InBetweenCamera")
 	
 	# animating camera still
@@ -111,12 +123,3 @@ func finishCameraSwitch() -> void:
 	else:
 		camera_to_player_direction = CAMERA_DIRECTIONS.FORWARD
 	
-	var non_existant_direction_in_relation_to_the_camera = null
-	match(CurrentCamera.name):
-		"Bird":
-			non_existant_direction_in_relation_to_the_camera = "y"
-		"Head":
-			non_existant_direction_in_relation_to_the_camera = "z"
-		"Head90":
-			non_existant_direction_in_relation_to_the_camera = "x"
-	camera_view_changed.emit(non_existant_direction_in_relation_to_the_camera)

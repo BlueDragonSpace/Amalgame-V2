@@ -1,0 +1,179 @@
+[gd_scene load_steps=9 format=3 uid="uid://c54v0itge1fjk"]
+
+[ext_resource type="Script" uid="uid://rm65qpnbr06s" path="res://Game/3D/player/Player3D.gd" id="1_mxww5"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d66d5"]
+radius = 0.2
+height = 0.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rx5h8"]
+radius = 0.2
+height = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_rx5h8"]
+size = Vector3(0.3, 0.1, 0.2)
+
+[sub_resource type="Curve3D" id="Curve3D_rx5h8"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Animation" id="Animation_5y2ow"]
+resource_name = "InBetweenCamera"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow3D/InBetweenCamera:current")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.033333335, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"finishCameraSwitch"
+}]
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PathFollow3D:progress_ratio")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.16666667, -0.16666667, 0, 0),
+"times": PackedFloat32Array(0, 0.96666664)
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("..:cameraAnimatePosition")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.033333335, 0.96666664),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_4yfpd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow3D/InBetweenCamera:current")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PathFollow3D:progress_ratio")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..:cameraAnimatePosition")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4sf8v"]
+_data = {
+&"InBetweenCamera": SubResource("Animation_5y2ow"),
+&"RESET": SubResource("Animation_4yfpd")
+}
+
+[node name="Player3D" type="CharacterBody3D" groups=["Player"]]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_mxww5")
+camera_mouse_rotate = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_d66d5")
+debug_color = Color(0, 0.6, 0.69803923, 0.7529412)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_rx5h8")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.239856, -0.09753275)
+mesh = SubResource("BoxMesh_rx5h8")
+
+[node name="Cameras" type="Node3D" parent="."]
+
+[node name="Bird" type="Camera3D" parent="Cameras"]
+transform = Transform3D(1, 0, 0, 0, 1.1924881e-08, 1, 0, -1, 1.1924881e-08, 0, 3, 0)
+projection = 1
+current = true
+size = 5.0
+
+[node name="Head" type="Camera3D" parent="Cameras"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 6)
+projection = 1
+size = 5.0
+
+[node name="Head90" type="Camera3D" parent="Cameras"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6, 0.2, 0)
+projection = 1
+size = 5.0
+
+[node name="InBetweenPath" type="Path3D" parent="."]
+curve = SubResource("Curve3D_rx5h8")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="InBetweenPath"]
+transform = Transform3D(-4.3711353e-08, 0.9999995, -4.3711374e-08, 0, -4.3711367e-08, -0.9999997, -0.99999917, -4.3711367e-08, 1.9106848e-15, 0, 0, 0)
+
+[node name="InBetweenCamera" type="Camera3D" parent="InBetweenPath/PathFollow3D"]
+projection = 1
+size = 5.0
+
+[node name="Animate" type="AnimationPlayer" parent="."]
+root_node = NodePath("../InBetweenPath")
+libraries = {
+&"": SubResource("AnimationLibrary_4sf8v")
+}
+
+[node name="UnusedCameras" type="Node" parent="."]
+
+[node name="FPS" type="Camera3D" parent="UnusedCameras"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.19999999, 0)
+projection = 1
+size = 5.0
+
+[node name="TPS" type="Camera3D" parent="UnusedCameras"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.39290798, 0.135216, 0.7459618)
+size = 5.0

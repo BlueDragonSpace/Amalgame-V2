@@ -1,7 +1,9 @@
 extends "res://Game/3D/Environment/Blocks/basic_block.gd"
 
 # by default, this platform doesn't collide with the player.
-# 
+# it takes the player interacting with it to turn it on.
+
+var player_on_block = false
 
 @onready var collider: CollisionShape3D = $CollisionShape3D
 
@@ -9,9 +11,10 @@ extends "res://Game/3D/Environment/Blocks/basic_block.gd"
 func _ready() -> void:
 	collider.set_deferred("disabled", true)
 
-func change_size(size) -> void:
+func change_size(size: Vector3, ignore_mesh: bool = false) -> void:
 	$CollisionShape3D.shape.size = size
-	$MeshInstance3D.mesh.size = size
+	if ignore_mesh == false:
+		$MeshInstance3D.mesh.size = size
 	$Area3D/CollisionShape3D.shape.size = size #this is why the function is redefined
 	# could probably just make the two collision shapes inherit from the same shape lol
 
@@ -20,6 +23,7 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 	# if heading upward or not moving in the y-axis, turn the collider off
 	if body.velocity.y < 0:
 		collider.set_deferred("disabled", false)
+		player_on_block = true
 		
 	else:
 		collider.set_deferred("disabled", true)
@@ -27,3 +31,4 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 func _on_area_3d_body_exited(_body: Node3D) -> void:
 	# makes sure the collider is set to disabled when they come back to the platform
 	collider.set_deferred("disabled", true)
+	player_on_block = false
