@@ -1,16 +1,26 @@
 
+Focus on the design of the game first, then lore, art, music, particle effects to look good...
+Should be fun with nothing put on top of it
+
 Need:
-	Movement is screwed up on camera switch
-	Changing hitboxes to be planes on Camera switch
+	Y-AXIS FLATTENING woah
 
 Probably:
-	Orthogonal art intent (2D presumably)
+	Stop the player (everything) when moving
+	Camera limits (why is it looking at the floor?)
+		Camera lerping
+		Camera no-move box (implemented by Phantom Camera)
+	UI Camera shifting bar + Timer (Camera Symbols)
 	White World (scenes)
+	Shadows! For the player to sense where they are
 
 Maybe:
 	Drunken Camera Offset
+	Orthogonal art intent (2D presumably) (as in like figuring out how to work with the camera)
 
 Want:
+	Jump Particles
+	Screenshake (implement to use later)
 	Pixel Perfect Camera (Celeste guy tutorial)
 
 Note that these are all listed in order of importance (like a tier list! cuz it is a tier list)
@@ -19,6 +29,10 @@ If you ever do use the mirror, it should probably be a reflective surface rather
 
 SCENES:
 	Third-Person! (just move the camera outwards lol)
+
+BUGS:
+	Standing next to fez block puts you on top of it on camera change - when the hitboxes expand
+	WHY IS THE HITBOX POSITION AND SIZE CHANGING (the mesh and collider aren't) - might be able to get away with it, for now
 
 REFACTORING:
 	Player3D Camera type enum automatically finds Camera names

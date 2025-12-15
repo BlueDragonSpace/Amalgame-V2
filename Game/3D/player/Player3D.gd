@@ -21,6 +21,7 @@ enum CAMERA_DIRECTIONS {
 var camera_to_player_direction = CAMERA_DIRECTIONS.FORWARD
 
 signal camera_view_changing
+signal camera_view_changed
 
 var CurrentCamera: Camera3D = null
 @export_category("ANIMATION ONLY EXPORTS")
@@ -86,13 +87,7 @@ func _process(_delta: float) -> void:
 		InBetweenPath.curve.add_point(CurrentCamera.position)
 		
 		var non_existant_direction_in_relation_to_the_camera = null
-		match(CurrentCamera.name):
-			"Bird":
-				non_existant_direction_in_relation_to_the_camera = "y"
-			"Head":
-				non_existant_direction_in_relation_to_the_camera = "z"
-			"Head90":
-				non_existant_direction_in_relation_to_the_camera = "x"
+		non_existant_direction_in_relation_to_the_camera = find_camera_direction(CurrentCamera.name)
 		camera_view_changing.emit(non_existant_direction_in_relation_to_the_camera)
 		
 		Animate.play("InBetweenCamera")
@@ -123,3 +118,17 @@ func finishCameraSwitch() -> void:
 	else:
 		camera_to_player_direction = CAMERA_DIRECTIONS.FORWARD
 	
+	var temp_camera_direction = find_camera_direction(CurrentCamera.name)
+	camera_view_changed.emit(temp_camera_direction)
+
+func find_camera_direction(camera_name) -> String:
+	var non_existant_direction_in_relation_to_the_camera = null
+	match(camera_name):
+		"Bird":
+			non_existant_direction_in_relation_to_the_camera = "y"
+		"Head":
+			non_existant_direction_in_relation_to_the_camera = "z"
+		"Head90":
+			non_existant_direction_in_relation_to_the_camera = "x"
+		#camera_view_changing.emit(non_existant_direction_in_relation_to_the_camera)
+	return non_existant_direction_in_relation_to_the_camera

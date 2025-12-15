@@ -3,7 +3,8 @@ extends "res://Game/3D/Environment/Blocks/basic_block.gd"
 # by default, this platform doesn't collide with the player.
 # it takes the player interacting with it to turn it on.
 
-var player_on_block = false
+var player_on_block = false #on top of, as in the collider is on
+var player_inside_block = false # inside of, as in it should move player on y-axis
 
 @onready var collider: CollisionShape3D = $CollisionShape3D
 
@@ -20,6 +21,8 @@ func change_size(size: Vector3, ignore_mesh: bool = false) -> void:
 
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
+	player_inside_block = true
+	
 	# if heading upward or not moving in the y-axis, turn the collider off
 	if body.velocity.y < 0:
 		collider.set_deferred("disabled", false)
@@ -29,6 +32,8 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 		collider.set_deferred("disabled", true)
 
 func _on_area_3d_body_exited(_body: Node3D) -> void:
+	player_inside_block = false
+	
 	# makes sure the collider is set to disabled when they come back to the platform
 	collider.set_deferred("disabled", true)
 	player_on_block = false

@@ -16,7 +16,8 @@ material = SubResource("StandardMaterial3D_3lw55")
 size = Vector3(1, 0.2, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3lw55"]
-size = Vector3(1, 0.1, 1)
+resource_local_to_scene = true
+size = Vector3(1.01, 0.2, 1.01)
 
 [node name="OneWayPlatform" instance=ExtResource("1_3lw55")]
 script = ExtResource("2_p8f31")
@@ -29,7 +30,7 @@ shape = SubResource("BoxShape3D_4mi3g")
 mesh = SubResource("BoxMesh_065g7")
 
 [node name="Area3D" type="Area3D" parent="." index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.09241694, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
 collision_layer = 0
 collision_mask = 2
 

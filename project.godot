@@ -30,7 +30,7 @@ window/size/viewport_height=600
 
 [editor]
 
-movie_writer/movie_file="D:/Godot/projects/amalgame-v-2/temp/fezBlocks.avi"
+movie_writer/movie_file="D:/Godot/projects/amalgame-v-2/temp/fezTower.avi"
 
 [editor_plugins]
 
@@ -124,6 +124,4 @@ blowUpEnv={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
 environment/defaults/default_clear_color=Color(0.18000486, 0.1800049, 0.1800048, 1)

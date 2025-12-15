@@ -23,3 +23,6 @@ Fixed the CAMERAAAAAAAAAAAAAAA
 Made One-way Platforms, likely a must for what comes next
 Made Fez Blocks!
 Also figured out enums (forgot to put it in the Devlog)
+
+(12/14)
+Made the Fez Blocks teleport the player to the block's position (like in Fez!)

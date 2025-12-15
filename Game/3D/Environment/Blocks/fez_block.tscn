@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bukc4enrv352c"]
+[gd_scene load_steps=7 format=3 uid="uid://bukc4enrv352c"]
 
 [ext_resource type="Script" uid="uid://bqlw14ybg7lsx" path="res://Game/3D/Environment/Blocks/fez_block.gd" id="1_dqkkm"]
 [ext_resource type="PackedScene" uid="uid://dhfok330ujv6j" path="res://Game/3D/Environment/Blocks/one_way_platform.tscn" id="1_sk8fw"]
@@ -15,6 +15,10 @@ resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_sk8fw")
 size = Vector3(1, 0.2, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_sk8fw"]
+resource_local_to_scene = true
+size = Vector3(1, 0.2, 1)
+
 [node name="FezBlock" instance=ExtResource("1_sk8fw")]
 script = ExtResource("1_dqkkm")
 
@@ -23,3 +27,6 @@ shape = SubResource("BoxShape3D_b5kde")
 
 [node name="MeshInstance3D" parent="." index="1"]
 mesh = SubResource("BoxMesh_dm1ad")
+
+[node name="CollisionShape3D" parent="Area3D" index="0"]
+shape = SubResource("BoxShape3D_sk8fw")
