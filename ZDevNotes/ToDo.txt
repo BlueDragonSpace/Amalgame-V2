@@ -3,25 +3,26 @@ Focus on the design of the game first, then lore, art, music, particle effects t
 Should be fun with nothing put on top of it
 
 Need:
-	Y-AXIS FLATTENING woah
+	Any order camera moving (likely going to need to change the second half of FezBlock camera_change() )
 
 Probably:
-	Stop the player (everything) when moving
 	Camera limits (why is it looking at the floor?)
-		Camera lerping
+		Camera lerping (also implemented by Phantom Camera)
 		Camera no-move box (implemented by Phantom Camera)
 	UI Camera shifting bar + Timer (Camera Symbols)
 	White World (scenes)
-	Shadows! For the player to sense where they are
 
 Maybe:
-	Drunken Camera Offset
+	Stop the player (everything) when moving
 	Orthogonal art intent (2D presumably) (as in like figuring out how to work with the camera)
 
 Want:
 	Jump Particles
 	Screenshake (implement to use later)
 	Pixel Perfect Camera (Celeste guy tutorial)
+
+Ehhhhhh Don't really care about anymore:
+	Shadows! For the player to sense where they are 
 
 Note that these are all listed in order of importance (like a tier list! cuz it is a tier list)
 

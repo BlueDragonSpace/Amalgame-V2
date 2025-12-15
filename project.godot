@@ -22,6 +22,7 @@ config/icon="uid://6ruklbbaxecb"
 [autoload]
 
 Global="*res://AMaster/global.gd"
+PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 
 [display]
 
@@ -34,7 +35,7 @@ movie_writer/movie_file="D:/Godot/projects/amalgame-v-2/temp/fezTower.avi"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
+enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
 
 [global_group]
 
@@ -121,7 +122,13 @@ blowUpEnv={
 3d_physics/layer_1="Environment"
 3d_physics/layer_2="Player"
 
+[physics]
+
+common/physics_interpolation=true
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
 environment/defaults/default_clear_color=Color(0.18000486, 0.1800049, 0.1800048, 1)

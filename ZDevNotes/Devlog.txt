@@ -26,3 +26,4 @@ Also figured out enums (forgot to put it in the Devlog)
 
 (12/14)
 Made the Fez Blocks teleport the player to the block's position (like in Fez!)
+Added Y-axis stuff (unlike Fez!)

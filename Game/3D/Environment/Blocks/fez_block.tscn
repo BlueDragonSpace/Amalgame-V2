@@ -17,7 +17,7 @@ size = Vector3(1, 0.2, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_sk8fw"]
 resource_local_to_scene = true
-size = Vector3(1, 0.2, 1)
+size = Vector3(1.01, 0.2, 1.01)
 
 [node name="FezBlock" instance=ExtResource("1_sk8fw")]
 script = ExtResource("1_dqkkm")

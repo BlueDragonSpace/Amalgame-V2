@@ -143,11 +143,13 @@ size = 5.0
 
 [node name="Head" type="Camera3D" parent="Cameras"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 6)
+v_offset = 1.0
 projection = 1
 size = 5.0
 
 [node name="Head90" type="Camera3D" parent="Cameras"]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6, 0.2, 0)
+v_offset = 1.0
 projection = 1
 size = 5.0
 
