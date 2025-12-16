@@ -174,4 +174,4 @@ texture = SubResource("ViewportTexture_8qjpp")
 size = Vector2i(300, 300)
 
 [node name="Camera3D" type="Camera3D" parent="RootGame/Root3D/SubViewport"]
-transform = Transform3D(0.96525425, -0.13613838, 0.22304851, 0, 0.8535695, 0.520979, -0.26131263, -0.5028772, 0.8239116, -6.1254225, 4.285453, -2.6316833)
+transform = Transform3D(0.7477746, 0.4146603, -0.518546, 0, 0.78099847, 0.62453294, 0.66395265, -0.46700987, 0.58401084, -26.928286, 9.329404, -5.8884716)

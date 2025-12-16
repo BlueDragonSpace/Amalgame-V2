@@ -27,3 +27,7 @@ Also figured out enums (forgot to put it in the Devlog)
 (12/14)
 Made the Fez Blocks teleport the player to the block's position (like in Fez!)
 Added Y-axis stuff (unlike Fez!)
+
+(12/15) - lost streak of 2
+Cameras in any order
+Fez Blocks are limited in that they need to always be visible

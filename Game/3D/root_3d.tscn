@@ -1,12 +1,13 @@
-[gd_scene load_steps=28 format=3 uid="uid://co0abf2qdb4vg"]
+[gd_scene load_steps=29 format=3 uid="uid://co0abf2qdb4vg"]
 
 [ext_resource type="PackedScene" uid="uid://c54v0itge1fjk" path="res://Game/3D/player/player_3d.tscn" id="1_d58b6"]
 [ext_resource type="PackedScene" uid="uid://c032yw7550pgw" path="res://Game/3D/Environment/Blocks/delete_me.tscn" id="2_4yfpd"]
-[ext_resource type="PackedScene" uid="uid://bkbyuf03gf71n" path="res://Game/2D/root_2d.tscn" id="2_d66d5"]
 [ext_resource type="FontFile" uid="uid://mhdspuc46081" path="res://placeholderArt/PixelOperator8.ttf" id="3_rx5h8"]
 [ext_resource type="PackedScene" uid="uid://becpqi8nmxnv0" path="res://Game/3D/Environment/ridgeway/ridgeway.tscn" id="4_5y2ow"]
 [ext_resource type="PackedScene" uid="uid://dhfok330ujv6j" path="res://Game/3D/Environment/Blocks/one_way_platform.tscn" id="6_4sf8v"]
 [ext_resource type="PackedScene" uid="uid://bukc4enrv352c" path="res://Game/3D/Environment/Blocks/fez_block.tscn" id="7_d58b6"]
+[ext_resource type="PackedScene" uid="uid://ds7amdlrlk45e" path="res://Game/3D/Environment/Blocks/basic_block.tscn" id="7_vfip1"]
+[ext_resource type="Script" uid="uid://c1s3n0sqaqa0h" path="res://Game/3D/Environment/Blocks/basic_block.gd" id="8_vfip1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_d66d5"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -40,15 +41,8 @@ fog_density = 0.2979
 [sub_resource type="PlaneMesh" id="PlaneMesh_rx5h8"]
 size = Vector2(200, 200)
 
-[sub_resource type="BoxMesh" id="BoxMesh_d58b6"]
-flip_faces = true
-size = Vector3(100, 1, 100)
-
 [sub_resource type="ViewportTexture" id="ViewportTexture_5y2ow"]
 viewport_path = NodePath("Env/Progres/SubViewport")
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_4yfpd"]
-viewport_path = NodePath("Env/TVScreen/SubViewport")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_rx5h8"]
 viewport_path = NodePath("Env/Mirror/SubViewport")
@@ -97,6 +91,12 @@ size = Vector3(1, 0.2, 1)
 resource_local_to_scene = true
 size = Vector3(1, 0.2, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_jylpl"]
+resource_local_to_scene = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_ff75t"]
+resource_local_to_scene = true
+
 [node name="Root3D" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -111,7 +111,7 @@ directional_shadow_split_2 = 0.491
 directional_shadow_max_distance = 12.8
 
 [node name="Player3D" parent="." instance=ExtResource("1_d58b6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.561527, 0.41398573, -3.5790725)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.737617, 0.46717882, -8.095823)
 
 [node name="Floor" type="StaticBody3D" parent="."]
 
@@ -120,10 +120,6 @@ shape = SubResource("WorldBoundaryShape3D_rx5h8")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
 mesh = SubResource("PlaneMesh_rx5h8")
-
-[node name="SeeableFloor" type="MeshInstance3D" parent="Floor"]
-visible = false
-mesh = SubResource("BoxMesh_d58b6")
 
 [node name="Env" type="Node3D" parent="."]
 
@@ -143,16 +139,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 value = 32.0
-
-[node name="TVScreen" type="Sprite3D" parent="Env"]
-transform = Transform3D(0.20000002, 0, 0, 0, 0.20000003, 0, 0, 0, 0.20000002, -0.08716321, 0.77000856, -0.9228879)
-texture = SubResource("ViewportTexture_4yfpd")
-
-[node name="SubViewport" type="SubViewport" parent="Env/TVScreen"]
-canvas_item_default_texture_filter = 0
-size = Vector2i(1000, 512)
-
-[node name="Root2D" parent="Env/TVScreen/SubViewport" instance=ExtResource("2_d66d5")]
 
 [node name="Mirror" type="Sprite3D" parent="Env"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.59843564, 2.9672065)
@@ -204,10 +190,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0.773, -6)
 
 [node name="CollisionShape3D" parent="Env/FezTower/FezBlock2" index="0"]
 shape = SubResource("BoxShape3D_d58b6")
-disabled = false
 
 [node name="MeshInstance3D" parent="Env/FezTower/FezBlock2" index="1"]
 mesh = SubResource("BoxMesh_vfip1")
+
+[node name="Area3D" parent="Env/FezTower/FezBlock2" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
 
 [node name="CollisionShape3D" parent="Env/FezTower/FezBlock2/Area3D" index="0"]
 shape = SubResource("BoxShape3D_vfip1")
@@ -217,10 +205,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.2886305, 1.5924442, -4.684
 
 [node name="CollisionShape3D" parent="Env/FezTower/FezBlock3" index="0"]
 shape = SubResource("BoxShape3D_d58b6")
-disabled = false
 
 [node name="MeshInstance3D" parent="Env/FezTower/FezBlock3" index="1"]
 mesh = SubResource("BoxMesh_vfip1")
+
+[node name="Area3D" parent="Env/FezTower/FezBlock3" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
 
 [node name="CollisionShape3D" parent="Env/FezTower/FezBlock3/Area3D" index="0"]
 shape = SubResource("BoxShape3D_qd4np")
@@ -230,10 +220,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.393427, 2.3464386, -6.4807
 
 [node name="CollisionShape3D" parent="Env/FezTower/FezBlock4" index="0"]
 shape = SubResource("BoxShape3D_d58b6")
-disabled = false
 
 [node name="MeshInstance3D" parent="Env/FezTower/FezBlock4" index="1"]
 mesh = SubResource("BoxMesh_vfip1")
+
+[node name="Area3D" parent="Env/FezTower/FezBlock4" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
 
 [node name="CollisionShape3D" parent="Env/FezTower/FezBlock4/Area3D" index="0"]
 shape = SubResource("BoxShape3D_ftkxl")
@@ -243,10 +235,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.8239865, 1.837008, -7.2368
 
 [node name="CollisionShape3D" parent="Env/FezTower/FezBlock5" index="0"]
 shape = SubResource("BoxShape3D_d58b6")
-disabled = false
 
 [node name="MeshInstance3D" parent="Env/FezTower/FezBlock5" index="1"]
 mesh = SubResource("BoxMesh_vfip1")
+
+[node name="Area3D" parent="Env/FezTower/FezBlock5" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
 
 [node name="CollisionShape3D" parent="Env/FezTower/FezBlock5/Area3D" index="0"]
 shape = SubResource("BoxShape3D_ftkxl")
@@ -256,10 +250,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.303416, 3.2818692, -8.2373
 
 [node name="CollisionShape3D" parent="Env/FezTower/FezBlock6" index="0"]
 shape = SubResource("BoxShape3D_d58b6")
-disabled = false
 
 [node name="MeshInstance3D" parent="Env/FezTower/FezBlock6" index="1"]
 mesh = SubResource("BoxMesh_vfip1")
+
+[node name="Area3D" parent="Env/FezTower/FezBlock6" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
 
 [node name="CollisionShape3D" parent="Env/FezTower/FezBlock6/Area3D" index="0"]
 shape = SubResource("BoxShape3D_ftkxl")
@@ -269,13 +265,52 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.303416, 2.6219065, -3.7884
 
 [node name="CollisionShape3D" parent="Env/FezTower/FezBlock7" index="0"]
 shape = SubResource("BoxShape3D_d58b6")
-disabled = false
 
 [node name="MeshInstance3D" parent="Env/FezTower/FezBlock7" index="1"]
 mesh = SubResource("BoxMesh_vfip1")
 
+[node name="Area3D" parent="Env/FezTower/FezBlock7" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+
 [node name="CollisionShape3D" parent="Env/FezTower/FezBlock7/Area3D" index="0"]
 shape = SubResource("BoxShape3D_ftkxl")
+
+[node name="MiddleBlocktower" type="Node3D" parent="Env"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.89582, 0, -13.805695)
+
+[node name="FezBlock" parent="Env/MiddleBlocktower" instance=ExtResource("7_d58b6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7875557, 0.923934, -1.2317553)
+
+[node name="FezBlock2" parent="Env/MiddleBlocktower" instance=ExtResource("7_d58b6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.3672314, 1.4748521, 4.9882574)
+
+[node name="FezBlock3" parent="Env/MiddleBlocktower" instance=ExtResource("7_d58b6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.56398, 2.920434, 4.9882574)
+
+[node name="FezBlock4" parent="Env/MiddleBlocktower" instance=ExtResource("7_d58b6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.56398, 3.72891, -2.4159393)
+
+[node name="FezBlock5" parent="Env/MiddleBlocktower" instance=ExtResource("7_d58b6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.56398, 1.7718287, 1.7108717)
+
+[node name="FezBlock6" parent="Env/MiddleBlocktower" instance=ExtResource("7_d58b6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0961494, 0.95459604, 5.321146)
+
+[node name="BasicBlock" parent="Env/MiddleBlocktower" instance=ExtResource("7_vfip1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.896, 8, 1.806)
+sz = Vector3(4, 16, 4)
+
+[node name="BasicBlock2" type="StaticBody3D" parent="Env/MiddleBlocktower"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4906425, 0.5, 4.346277)
+collision_mask = 3
+script = ExtResource("8_vfip1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Env/MiddleBlocktower/BasicBlock2"]
+shape = SubResource("BoxShape3D_jylpl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Env/MiddleBlocktower/BasicBlock2"]
+visible = false
+mesh = SubResource("BoxMesh_ff75t")
 
 [editable path="Env/FezTower/FezBlock2"]
 [editable path="Env/FezTower/FezBlock3"]

@@ -12,8 +12,11 @@ func _ready() -> void:
 	defaultPos = position
 	Player.connect("camera_view_changing", camera_change)
 	Player.connect("camera_view_changed", camera_change_after)
+	
+	if Player.CurrentCamera.name == "Bird":
+		position.y = 0 # Fez Blocks aren't real
 
-func camera_change(direction) -> void:
+func camera_change(direction, previous_direction) -> void:
 	
 	#changes hitbox (and mesh, currently) size
 	sz = defaultSz
@@ -33,16 +36,28 @@ func camera_change(direction) -> void:
 	
 	# I'm pretty sure this is related to the order of the cameras, (the previous direction, rather than the current one)
 	if player_on_block:
-		match(direction):
+		match (previous_direction):
+		#match(direction):
+			#"x":
+				#Player.position.z = global_position.z
+			#"y":
+				#Player.position.x = global_position.x
+			#"z":
+				#pass
+		#Player.position.y = global_position.y + player_y_safety #makes sure player lands on top of platform
 			"x":
-				Player.position.z = global_position.z
-			"y":
 				Player.position.x = global_position.x
-			"z":
+			"y":
+				#Player.position.z = global_position.z
 				pass
+			"z":
+				Player.position.z = global_position.z
+				
+			## Bird direction is y (previous was Head90 -> X)
+			## Head dir -> Z (Previous was Bird -> y)
+			## Head 90 -> X
 		Player.position.y = global_position.y + player_y_safety #makes sure player lands on top of platform
-	
-	if player_inside_block and direction == "z":
+	if player_inside_block and previous_direction == "y":
 		Player.position.y = global_position.y + player_y_safety #makes sure player lands on top of platform
 	
 

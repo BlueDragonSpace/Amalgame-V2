@@ -2,8 +2,10 @@
 Focus on the design of the game first, then lore, art, music, particle effects to look good...
 Should be fun with nothing put on top of it
 
+There's not going to be a floor... floating in the sky... (also to balance out Overhead view)
+
 Need:
-	Any order camera moving (likely going to need to change the second half of FezBlock camera_change() )
+	what
 
 Probably:
 	Camera limits (why is it looking at the floor?)
@@ -11,6 +13,8 @@ Probably:
 		Camera no-move box (implemented by Phantom Camera)
 	UI Camera shifting bar + Timer (Camera Symbols)
 	White World (scenes)
+	Blocks only collide if the player can see the actual block
+		(either raycast to whatever blocks the camera, or use a visual checker)
 
 Maybe:
 	Stop the player (everything) when moving
@@ -27,6 +31,7 @@ Ehhhhhh Don't really care about anymore:
 Note that these are all listed in order of importance (like a tier list! cuz it is a tier list)
 
 If you ever do use the mirror, it should probably be a reflective surface rather than a static camera lol
+Phantom Camera can't handle Orthographic perspective
 
 SCENES:
 	Third-Person! (just move the camera outwards lol)

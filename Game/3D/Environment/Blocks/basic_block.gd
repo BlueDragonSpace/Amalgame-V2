@@ -1,3 +1,4 @@
+@tool
 extends StaticBody3D
 
 @export var sz = Vector3(1.0, 1.0, 1.0)

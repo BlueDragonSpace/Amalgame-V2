@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://uqituwjypux1"]
+
+[ext_resource type="PackedScene" uid="uid://bkbyuf03gf71n" path="res://Game/2D/root_2d.tscn" id="1_ypk3r"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_4yfpd"]
+viewport_path = NodePath("Env/TVScreen/SubViewport")
+
+[node name="TVScreen" type="Sprite3D"]
+transform = Transform3D(0.20000002, 0, 0, 0, 0.20000003, 0, 0, 0, 0.20000002, 0, 0, 0)
+texture = SubResource("ViewportTexture_4yfpd")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+canvas_item_default_texture_filter = 0
+size = Vector2i(1000, 512)
+
+[node name="Root2D" parent="SubViewport" instance=ExtResource("1_ypk3r")]
